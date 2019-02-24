@@ -52,10 +52,10 @@ class EndModel(Classifier):
         self._build(input_module, middle_modules, head_module)
 
         # Show network
-        if self.config["verbose"]:
-            print("\nNetwork architecture:")
-            self._print()
-            print()
+        # if self.config["verbose"]:
+        #     print("\nNetwork architecture:")
+        #     self._print()
+        #     print()
 
     def _build(self, input_module, middle_modules, head_module):
         """
