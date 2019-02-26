@@ -214,56 +214,59 @@ class Classifier(nn.Module):
 
         # Train the model
         metrics_hist = {}  # The most recently seen value for all metrics
-        for epoch in range(start_iteration, train_config["n_epochs"]):
-            progress_bar = (
-                train_config["progress_bar"]
-                and self.config["verbose"]
-                and self.logger.log_unit == "epochs"
-            )
-
-            t = tqdm(
-                enumerate(train_loader),
-                total=len(train_loader),
-                disable=(not progress_bar),
-            )
-
-            self.running_loss = 0.0
-            self.running_examples = 0
-            for batch_num, data in t:
-                # NOTE: actual batch_size may not equal config's target batch_size
-                batch_size = len(data[0])
-
-                # Moving data to device
-                if self.config["device"] != "cpu":
-                    data = place_on_gpu(data)
-
-                # Zero the parameter gradients
-                self.optimizer.zero_grad()
-
-                # Forward pass to calculate the average loss per example
-                loss = loss_fn(*data)
-                if torch.isnan(loss):
-                    msg = "Loss is NaN. Consider reducing learning rate."
-                    raise Exception(msg)
-
-                # Backward pass to calculate gradients
-                # Loss is an average loss per example
-                loss.backward()
-
-                # Perform optimizer step
-                self.optimizer.step()
-
-                # Calculate metrics, log, and checkpoint as necessary
-                metrics_dict = self._execute_logging(
-                    train_loader, valid_loader, loss, batch_size
+        try:
+            for epoch in range(start_iteration, train_config["n_epochs"]):
+                progress_bar = (
+                    train_config["progress_bar"]
+                    and self.config["verbose"]
+                    and self.logger.log_unit == "epochs"
                 )
-                metrics_hist.update(metrics_dict)
 
-                # tqdm output
-                t.set_postfix(loss=metrics_dict["train/loss"])
+                t = tqdm(
+                    enumerate(train_loader),
+                    total=len(train_loader),
+                    disable=(not progress_bar),
+                )
 
-            # Apply learning rate scheduler
-            self._update_scheduler(epoch, metrics_hist)
+                self.running_loss = 0.0
+                self.running_examples = 0
+                for batch_num, data in t:
+                    # NOTE: actual batch_size may not equal config's target batch_size
+                    batch_size = len(data[0])
+
+                    # Moving data to device
+                    if self.config["device"] != "cpu":
+                        data = place_on_gpu(data)
+
+                    # Zero the parameter gradients
+                    self.optimizer.zero_grad()
+
+                    # Forward pass to calculate the average loss per example
+                    loss = loss_fn(*data)
+                    if torch.isnan(loss):
+                        msg = "Loss is NaN. Consider reducing learning rate."
+                        raise Exception(msg)
+
+                    # Backward pass to calculate gradients
+                    # Loss is an average loss per example
+                    loss.backward()
+
+                    # Perform optimizer step
+                    self.optimizer.step()
+
+                    # Calculate metrics, log, and checkpoint as necessary
+                    metrics_dict = self._execute_logging(
+                        train_loader, valid_loader, loss, batch_size
+                    )
+                    metrics_hist.update(metrics_dict)
+
+                    # tqdm output
+                    t.set_postfix(loss=metrics_dict["train/loss"])
+
+                # Apply learning rate scheduler
+                self._update_scheduler(epoch, metrics_hist)
+        except KeyboardInterrupt:
+            print("\nEnding training early!")
 
         self.eval()
 
