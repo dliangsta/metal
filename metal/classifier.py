@@ -212,6 +212,11 @@ class Classifier(nn.Module):
         else:
             start_iteration = 0
 
+        # Log metrics before training.
+        self.logger.log(self.logger.calculate_metrics(
+            self, train_loader, valid_loader, None
+        ))
+        
         # Train the model
         metrics_hist = {}  # The most recently seen value for all metrics
         try:
