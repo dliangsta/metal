@@ -79,7 +79,7 @@ class LogWriter(object):
 
     def add_scalar(self, name, val, i):
         # Note: Does not handle deduplication of (name, val) entries w same i
-        if not self.writer_metrics or name in self.write_metrics:
+        if not self.writer_metrics or name in self.writer_metrics:
             self.log_dict["run_log"][name].append((i, val))
             return True
         else:
