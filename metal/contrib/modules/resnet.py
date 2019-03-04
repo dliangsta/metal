@@ -1,12 +1,14 @@
 import torch.nn as nn
 from torchvision import models
 
-class Resnet18(nn.Module):
+class Resnet(nn.Module):
 
-  def __init__(self, pretrained=True, **kwargs):
+  def __init__(self, pretrained=True, freeze=False, **kwargs):
     super().__init__()
     self.model = models.resnet18(pretrained=pretrained)
     self.model.fc = nn.Sequential()
+    if freeze:
+      self.freeze()
 
   def forward(self, x):
     return self.model(x)

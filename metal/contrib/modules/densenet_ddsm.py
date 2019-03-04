@@ -3,13 +3,15 @@ import torch.nn as nn
 from torchvision import models
 import imp
 
-class Densenet121DDSM(nn.Module):
+class DensenetDDSM(nn.Module):
 
-  def __init__(self, **kwargs):
+  def __init__(self, freeze=False, **kwargs):
     super().__init__()
     MainModel = imp.load_source("MainModel", "weights/weights.py")
     self.model = torch.load("weights/weights.best.pytorch.hdf5")
     self.model._modules["dense_1"] = torch.nn.Sequential()
+    if freeze:
+      self.freeze()
 
   def forward(self, x):
     return self.model(x)
