@@ -5,7 +5,7 @@ class Resnet(nn.Module):
 
   def __init__(self, pretrained=True, freeze=False, **kwargs):
     super().__init__()
-    self.model = models.resnet18(pretrained=pretrained)
+    self.model = models.resnet152(pretrained=pretrained)
     self.model.fc = nn.Sequential()
     if freeze:
       self.freeze()
@@ -15,7 +15,8 @@ class Resnet(nn.Module):
 
   @staticmethod
   def last_layer_output_size():
-    model = models.resnet18(pretrained=True)
+    return 2048
+    model = models.resnet152(pretrained=True)
     last_layer_output_size = int(model.fc.weight.size()[1])
     del model
     return last_layer_output_size
