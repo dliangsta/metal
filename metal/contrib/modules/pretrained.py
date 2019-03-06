@@ -4,13 +4,12 @@ from metal.contrib.modules.module import Module
 
 class PretrainedModel(Module):
 
-  MODEL_NAME = 'inceptionresnetv2'
+  MODEL_NAME = 'se_resnext101_32x4d'
 
   def __init__(self, pretrained=True, freeze=False, **kwargs):
     super().__init__()
     self.model = pretrainedmodels.__dict__[PretrainedModel.MODEL_NAME](num_classes=1000, pretrained='imagenet')
     self.model.last_linear = nn.Sequential()
-    print(self.model)
 
   def forward(self, x):
     return self.model(x)
