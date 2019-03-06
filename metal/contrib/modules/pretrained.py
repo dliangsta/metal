@@ -4,11 +4,10 @@ from metal.contrib.modules.module import Module
 
 class PretrainedModel(Module):
 
-  MODEL_NAME = 'se_resnext101_32x4d'
-
-  def __init__(self, pretrained=True, freeze=False, **kwargs):
+  def __init__(self, pretrained=True, freeze=False, model_name="se_resnext101_32x4d", **kwargs):
     super().__init__()
-    self.model = pretrainedmodels.__dict__[PretrainedModel.MODEL_NAME](num_classes=1000, pretrained='imagenet')
+    self.model_name = model_name
+    self.model = pretrainedmodels.__dict__[model_name](num_classes=1000, pretrained="imagenet")
     self.model.last_linear = nn.Sequential()
 
   def forward(self, x):
@@ -16,7 +15,4 @@ class PretrainedModel(Module):
 
   @staticmethod
   def last_layer_output_size():
-    model = pretrainedmodels.__dict__[PretrainedModel.MODEL_NAME](num_classes=1000, pretrained='imagenet')
-    last_layer_output_size = int(model.last_linear.weight.size()[1])
-    del model
-    return last_layer_output_size
+    return 2048
