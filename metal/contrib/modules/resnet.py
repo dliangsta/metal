@@ -16,7 +16,3 @@ class Resnet(nn.Module):
   @staticmethod
   def last_layer_output_size():
     return 2048
-    model = models.resnet152(pretrained=True)
-    last_layer_output_size = int(model.fc.weight.size()[1])
-    del model
-    return last_layer_output_size
