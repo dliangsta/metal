@@ -9,6 +9,8 @@ class PretrainedModel(Module):
     self.model_name = model_name
     self.model = pretrainedmodels.__dict__[model_name](num_classes=1000, pretrained="imagenet")
     self.model.last_linear = nn.Sequential()
+    if freeze:
+      self.freeze()
 
   def forward(self, x):
     return self.model(x)

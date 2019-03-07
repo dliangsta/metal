@@ -19,7 +19,7 @@ model_urls = {
 class Bottleneck(nn.Module):
   expansion = 4
 
-  def __init__(self, inplanes, planes, stride=1, downsample=None, kernel_size=1):
+  def __init__(self, inplanes, planes, stride=1, downsample=None, kernel_size=1, freeze=False):
     super(Bottleneck, self).__init__()
     # print('Creating bottleneck with kernel size {} and stride {} with padding {}'.format(kernel_size, stride, (kernel_size - 1) // 2))
     self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
@@ -32,6 +32,8 @@ class Bottleneck(nn.Module):
     self.relu = nn.ReLU(inplace=True)
     self.downsample = downsample
     self.stride = stride
+    if freeze:
+      self.freeze()
 
   def forward(self, x, **kwargs):
     residual = x
@@ -152,4 +154,3 @@ class Bagnet9(Bagnet):
     super().__init__(Bottleneck, [3, 4, 6, 3], strides=strides, kernel3=[1,1,0,0], **kwargs)
     if pretrained:
       self.load_state_dict(model_zoo.load_url(model_urls['bagnet9']))
-      

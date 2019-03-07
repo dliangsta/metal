@@ -8,6 +8,7 @@ class Module(nn.Module):
 
   def freeze(self):
     assert self.model
+    print("Freezing model!")
     for param in self.model.parameters():
       param.requires_grad = False
 
