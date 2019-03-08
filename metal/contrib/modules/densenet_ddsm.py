@@ -1,9 +1,10 @@
+import imp
 import torch
 import torch.nn as nn
 from torchvision import models
-import imp
+from metal.contrib.modules.module import Module
 
-class DensenetDDSM(nn.Module):
+class DensenetDDSM(Module):
 
   def __init__(self, freeze=False, **kwargs):
     super().__init__()

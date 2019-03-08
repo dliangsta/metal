@@ -56,7 +56,7 @@ class ModelTuner(object):
         run_dir = run_dir or self.init_date
         run_name = run_name or self.init_time
         self.log_rootdir = os.path.join(self.log_dir, run_dir)
-        self.log_subdir = os.path.join(self.log_dir, run_dir, run_name)
+        self.log_subdir = os.path.join(self.log_dir, run_dir, run_name, self.init_date, self.init_time)
 
         if not os.path.exists(self.log_subdir):
             os.makedirs(self.log_subdir)
