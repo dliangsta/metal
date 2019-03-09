@@ -30,20 +30,23 @@ class LogWriter(object):
         log_dir="logs",
         run_dir=None,
         run_name=None,
+        start_date=None,
+        start_time=None,
         writer_metrics=None,
         include_config=True,
     ):
-        start_date = strftime("%Y_%m_%d")
-        start_time = strftime("%H_%M_%S")
+        start_date = start_date or strftime("%Y_%m_%d")
+        start_time = start_time or strftime("%H_%M_%S")
 
         # Set logging subdirectory + make sure exists
         log_dir = log_dir or os.getcwd()
         run_dir = run_dir or start_date
-        if run_name is not None:
-            run_name = f"{run_name}_{start_time}"
-        else:
-            run_name = start_time
-        self.log_subdir = os.path.join(log_dir, run_dir, run_name)
+        # if run_name is not None:
+        #     run_name = f"{run_name}_{start_time}"
+        # else:
+        #     run_name = start_time
+        self.log_subdir = os.path.join(log_dir, run_name, start_date, start_time)
+        print('writer log subdir: ', self.log_subdir)
         if not os.path.exists(self.log_subdir):
             os.makedirs(self.log_subdir)
 

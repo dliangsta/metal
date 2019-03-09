@@ -96,6 +96,8 @@ em_default_config = {
             "log_dir": None,
             "run_dir": None,
             "run_name": None,
+            "start_date": None,
+            "start_time": None,
             "writer_metrics": None,  # May specify a subset of metrics in metrics_dict to be written
             "include_config": True,  # If True, include model config in log
         },

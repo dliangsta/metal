@@ -40,6 +40,8 @@ class ModelTuner(object):
         log_dir=None,
         run_dir=None,
         run_name=None,
+        init_date=None,
+        init_time=None,
         log_writer_class=None,
         seed=None,
         validation_metric="accuracy",
@@ -50,13 +52,14 @@ class ModelTuner(object):
         self.validation_metric = validation_metric
 
         # Set logging subdirectory + make sure exists
-        self.init_date = strftime("%Y_%m_%d")
-        self.init_time = strftime("%H_%M_%S")
+        self.init_date = init_date or strftime("%Y_%m_%d")
+        self.init_time = init_time or strftime("%H_%M_%S")
         self.log_dir = log_dir or os.getcwd()
         run_dir = run_dir or self.init_date
         run_name = run_name or self.init_time
         self.log_rootdir = os.path.join(self.log_dir, run_dir)
-        self.log_subdir = os.path.join(self.log_dir, run_dir, run_name, self.init_date, self.init_time)
+        self.log_subdir = os.path.join(self.log_dir, run_name, self.init_date, self.init_time)
+        print('tuner log subdir: ', self.log_subdir)
 
         if not os.path.exists(self.log_subdir):
             os.makedirs(self.log_subdir)
@@ -205,6 +208,7 @@ class ModelTuner(object):
     def _save_report(self):
         with open(self.report_path, "w") as f:
             json.dump(self.run_stats, f, indent=1)
+            print(f"Report saved to {self.report_path}")
 
     def run_stats_df(self):
         """Returns self.run_stats over search params as pandas dataframe."""
