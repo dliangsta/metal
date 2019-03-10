@@ -15,6 +15,8 @@ class TensorBoardWriter(LogWriter):
         log_dir="tensorboard",
         run_dir=None,
         run_name=None,
+        start_date=None,
+        start_time=None,
         writer_metrics=None,
         include_config=True,
     ):
@@ -22,6 +24,8 @@ class TensorBoardWriter(LogWriter):
             log_dir=log_dir,
             run_dir=run_dir,
             run_name=run_name,
+            start_date=start_date,
+            start_time=start_time,
             writer_metrics=writer_metrics,
             include_config=include_config,
         )

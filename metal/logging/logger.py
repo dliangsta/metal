@@ -169,14 +169,11 @@ class Logger(object):
             return 0
 
     def log(self, metrics_dict):
-        print('logging')
         """Print calculated metrics and optionally write to file (json/tb)"""
         if self.writer:
-            print('writing')
             self.write_to_file(metrics_dict)
 
         if self.verbose:
-            print('printing')
             self.print_to_screen(metrics_dict)
         self.reset()
 

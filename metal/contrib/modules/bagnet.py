@@ -21,7 +21,6 @@ class Bottleneck(nn.Module):
 
   def __init__(self, inplanes, planes, stride=1, downsample=None, kernel_size=1, freeze=False):
     super(Bottleneck, self).__init__()
-    # print('Creating bottleneck with kernel size {} and stride {} with padding {}'.format(kernel_size, stride, (kernel_size - 1) // 2))
     self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
     self.bn1 = nn.BatchNorm2d(planes)
     self.conv2 = nn.Conv2d(planes, planes, kernel_size=kernel_size, stride=stride,
