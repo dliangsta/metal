@@ -139,7 +139,11 @@ def fbeta_score(
 
 
 def f1_score(gold, pred, **kwargs):
-    return fbeta_score(gold, pred, beta=1.0, **kwargs)
+    k = max(gold)
+    f1s = [fbeta_score(gold, pred, beta=1.0, pos_label=i, **kwargs) for i in range(1,k+1)]
+    print(f'F1s: {f1s}')
+    return sum(f1s) / k
+    # return fbeta_score(gold, pred, beta=1.0, **kwargs)
 
 
 def roc_auc_score(gold, probs, ignore_in_gold=[], ignore_in_pred=[]):
