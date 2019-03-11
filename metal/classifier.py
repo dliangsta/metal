@@ -145,7 +145,7 @@ class Classifier(nn.Module):
         for metric in metric_list:
             score = metric_score(Y, Y_p, metric, probs=Y_s, ignore_in_gold=[0])
             scores.append(score)
-            if verbose:
+            if verbose and type(score) != list:
                 print(f"{metric.capitalize()}: {score:.3f}")
 
         # Optionally print confusion matrix
@@ -260,14 +260,20 @@ class Classifier(nn.Module):
                     self.optimizer.step()
 
                     # Calculate metrics, log, and checkpoint as necessary
-                    metrics_dict = self._execute_logging(
-                        train_loader, valid_loader, loss, batch_size
-                    )
-                    metrics_hist.update(metrics_dict)
+                    if batch_num != len(t) - 1:
+                        metrics_dict = self._execute_logging(
+                            train_loader, valid_loader, loss, batch_size
+                        )
+                        metrics_hist.update(metrics_dict)
 
                     # tqdm output
                     t.set_postfix(loss=metrics_dict["train/loss"])
 
+                metrics_dict = self._execute_logging(
+                    train_loader, valid_loader, loss, batch_size
+                )
+                metrics_hist.update(metrics_dict)
+                
                 # Apply learning rate scheduler
                 self._update_scheduler(epoch, metrics_hist)
         except KeyboardInterrupt:

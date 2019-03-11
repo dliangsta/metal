@@ -35,7 +35,8 @@ class TensorBoardWriter(LogWriter):
 
     def add_scalar(self, name, val, i):
         if super().add_scalar(name, val, i):
-            self.tb_writer.add_scalar(name, val, i)
+            if type(val) != list:
+                self.tb_writer.add_scalar(name, val, i)
 
     def close(self):
         self.write()
