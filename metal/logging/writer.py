@@ -27,27 +27,26 @@ class LogWriter(object):
 
     def __init__(
         self,
-        log_dir="logs",
-        run_dir=None,
-        run_name=None,
-        start_date=None,
-        start_time=None,
+        out_dir=None,
         writer_metrics=None,
         include_config=True,
     ):
-        start_date = start_date or strftime("%Y_%m_%d")
-        start_time = start_time or strftime("%H_%M_%S")
+        start_date = strftime("%Y_%m_%d")
+        start_time = strftime("%H_%M_%S")
 
         # Set logging subdirectory + make sure exists
-        log_dir = log_dir or os.getcwd()
-        run_dir = run_dir or start_date
-        self.log_subdir = os.path.join(log_dir, f"{start_date}_{start_time}", run_name)
-        print('writer log subdir: ', self.log_subdir)
-        if not os.path.exists(self.log_subdir):
-            os.makedirs(self.log_subdir)
+        if out_dir:
+            self.log_subdir = out_dir
+        else:
+            log_dir = os.getcwd()
+            run_dir = start_date
+            run_name = start_time
+            self.log_subdir = os.path.join(log_dir, f"{start_date}_{start_time}{('_' + run_name) if run_name else ''}")
+            if not os.path.exists(self.log_subdir):
+                os.makedirs(self.log_subdir)
 
         # Set JSON log path
-        self.log_path = os.path.join(self.log_subdir, f"{run_name}.json")
+        self.log_path = os.path.join(self.log_subdir, "log.json")
 
         # Save other settings
         self.writer_metrics = writer_metrics

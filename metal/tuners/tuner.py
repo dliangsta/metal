@@ -37,11 +37,7 @@ class ModelTuner(object):
         self,
         model_class,
         module_classes={},
-        log_dir=None,
-        run_dir=None,
-        run_name=None,
-        init_date=None,
-        init_time=None,
+        out_dir=None,
         log_writer_class=None,
         seed=None,
         validation_metric="accuracy",
@@ -52,16 +48,17 @@ class ModelTuner(object):
         self.validation_metric = validation_metric
 
         # Set logging subdirectory + make sure exists
-        self.init_date = init_date or strftime("%Y_%m_%d")
-        self.init_time = init_time or strftime("%H_%M_%S")
-        self.log_dir = log_dir or os.getcwd()
-        run_dir = run_dir or self.init_date
-        run_name = run_name or self.init_time
-        self.log_subdir = os.path.join(self.log_dir, f"{self.init_date}_{self.init_time}", run_name)
-        print('tuner log subdir: ', self.log_subdir)
-
-        if not os.path.exists(self.log_subdir):
-            os.makedirs(self.log_subdir)
+        if out_dir:
+            self.log_subdir = out_dir
+        else:
+            self.init_date = strftime("%Y_%m_%d")
+            self.init_time = strftime("%H_%M_%S")
+            self.log_dir = os.getcwd()
+            run_dir = self.init_date
+            run_name = self.init_time
+            self.log_subdir = os.path.join(self.log_dir, f"{self.init_date}_{self.init_time}{('_' + run_name) if run_name else ''}")
+            if not os.path.exists(self.log_subdir):
+                os.makedirs(self.log_subdir)
 
         # Set best model pkl and JSON log paths
         self.save_path = os.path.join(self.log_subdir, f"best_model.pkl")

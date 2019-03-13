@@ -12,26 +12,19 @@ class TensorBoardWriter(LogWriter):
 
     def __init__(
         self,
+        out_dir=None,
         log_dir="tensorboard",
-        run_dir=None,
-        run_name=None,
-        start_date=None,
-        start_time=None,
         writer_metrics=None,
         include_config=True,
     ):
         super().__init__(
-            log_dir=log_dir,
-            run_dir=run_dir,
-            run_name=run_name,
-            start_date=start_date,
-            start_time=start_time,
+            out_dir=out_dir,
             writer_metrics=writer_metrics,
             include_config=include_config,
         )
 
         # Set up TensorBoard summary writer
-        self.tb_writer = SummaryWriter(self.log_subdir, filename_suffix=f".{run_name}")
+        self.tb_writer = SummaryWriter(self.log_subdir)
 
     def add_scalar(self, name, val, i):
         if super().add_scalar(name, val, i):
