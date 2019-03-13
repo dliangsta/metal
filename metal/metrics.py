@@ -141,14 +141,11 @@ def fbeta_score(
 def f1_score(gold, pred, **kwargs):
     k = max(gold)
     f1s = [fbeta_score(gold, pred, beta=1.0, pos_label=i, **kwargs) for i in range(1,k+1)]
-    # print(f'F1s: {f1s}')
-    return sum(f1s) / k
-    # return fbeta_score(gold, pred, beta=1.0, **kwargs)
+    return np.mean(f1s)
 
 def f1_scores(gold, pred, **kwargs):
     k = max(gold)
     f1s = [fbeta_score(gold, pred, beta=1.0, pos_label=i, **kwargs) for i in range(1,k+1)]
-    # print(f'F1s: {f1s}')
     return f1s
 
 def roc_auc_score(gold, probs, ignore_in_gold=[], ignore_in_pred=[]):
@@ -221,6 +218,5 @@ def metric_score(gold, pred, metric, probs=None, **kwargs):
         if probs is None:
             raise ValueError("ROC-AUC score requries the predicted probs.")
         return roc_auc_score(gold, probs, **kwargs)
-
     else:
         return METRICS[metric](gold, pred, **kwargs)

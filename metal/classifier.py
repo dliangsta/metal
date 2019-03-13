@@ -145,8 +145,11 @@ class Classifier(nn.Module):
         for metric in metric_list:
             score = metric_score(Y, Y_p, metric, probs=Y_s, ignore_in_gold=[0])
             scores.append(score)
-            if verbose and type(score) != list:
-                print(f"{metric.capitalize()}: {score:.3f}")
+            if verbose:
+                if type(score) != list:
+                    print(f"{metric.capitalize()}: {score:.3f}")
+                else:
+                    print(f"{metric.capitalize()}: {score}")
 
         # Optionally print confusion matrix
         if print_confusion_matrix and verbose:
