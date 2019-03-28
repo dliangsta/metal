@@ -59,7 +59,7 @@ class RandomSearchTuner(ModelTuner):
         # Commence search
         for i, config in enumerate(configs):
             score, model = self._test_model_config(
-                i,
+                i + 1,
                 len(configs),
                 config,
                 valid_data,

@@ -229,7 +229,7 @@ class HyperbandTuner(ModelTuner):
 
                     # Train model and get the score
                     score, model = self._test_model_config(
-                        f"{band_index}_{i}",
+                        f"{band_index}_{i+1}",
                         len(configurations),
                         configuration,
                         valid_data,
