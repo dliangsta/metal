@@ -92,6 +92,7 @@ class ModelTuner(object):
     def _test_model_config(
         self,
         idx,
+        num,
         config,
         valid_data,
         init_args=[],
@@ -139,7 +140,7 @@ class ModelTuner(object):
 
         if verbose:
             print("=" * 60)
-            print(f"[{idx}] Testing {search_params}")
+            print(f"[{idx}/{num}] Testing {search_params}")
             print("=" * 60)
 
         # Initialize a new LogWriter and train the model, returning the score
