@@ -58,11 +58,11 @@ class Checkpointer(object):
         if self.checkpoint_best and self.checkpoint_metric in metrics_dict:
             score = metrics_dict[self.checkpoint_metric]
             if self.is_best(score):
-                if self.verbose:
-                    print(
-                        f"Saving model at iteration {iteration} with best "
-                        f"score {score:.3f}"
-                    )
+                # if self.verbose:
+                #     print(
+                #         f"Saving model at iteration {iteration} with best "
+                #         f"score {score:.7f}"
+                #     )
                 self.best_model_found = True
                 self.best_iteration = iteration
                 self.best_score = score
@@ -111,7 +111,7 @@ class Checkpointer(object):
         if self.verbose:
             print(
                 f"Restoring best model from iteration {self.best_iteration} "
-                f"with score {self.best_score:.3f}"
+                f"with score {self.best_score:.7f}"
             )
             state = torch.load(
                 f"{self.checkpoint_dir}/best_model.pth",

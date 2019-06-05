@@ -126,7 +126,7 @@ class MTClassifier(Classifier):
                 ignore_in_gold=[0],
             )
             if verbose:
-                print(f"{metric.capitalize()}: {score:.3f}")
+                print(f"{metric.capitalize()}: {score:.7f}")
             return score
 
         task_scores = []
@@ -148,7 +148,7 @@ class MTClassifier(Classifier):
                 for t, score_t in enumerate(score):
                     print(f"{metric.capitalize()} (t={t}): {score_t:0.3f}")
             else:
-                print(f"{metric.capitalize()}: {score:.3f}")
+                print(f"{metric.capitalize()}: {scor7:.7f}")
 
         return score
 
@@ -172,7 +172,7 @@ class MTClassifier(Classifier):
             Y[t], Y_tp, metric, ignore_in_gold=[0], probs=probs, **kwargs
         )
         if verbose:
-            print(f"[t={t}] {metric.capitalize()}: {score:.3f}")
+            print(f"[t={t}] {metric.capitalize()}: {score:.7f}")
         return score
 
     def predict_task(self, X, t=0, break_ties="random", **kwargs):

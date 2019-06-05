@@ -54,9 +54,9 @@ def pred_to_prob(Y_h, k):
     Y_h = Y_h.clone()
     if Y_h.dim() > 1:
         Y_h = Y_h.squeeze()
-    assert Y_h.dim() == 1
-    assert (Y_h >= 1).all()
-    assert (Y_h <= k).all()
+    assert Y_h.dim() == 1, Y_h.dim()
+    assert (Y_h >= 1).all(), Y_h.min()
+    assert (Y_h <= k).all(), (Y_h.max(), k)
     n = Y_h.shape[0]
     Y_s = torch.zeros((n, k), dtype=Y_h.dtype, device=Y_h.device)
     for i, j in enumerate(Y_h):

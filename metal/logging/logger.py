@@ -184,7 +184,10 @@ class Logger(object):
             split, metric = split_metric.split("/", 1)
 
             if isinstance(value, float):
-                score_strings[split].append(f"{metric}={value:0.3f}")
+                score_strings[split].append(f"{metric}={value:0.7f}")
+            elif isinstance(value, list):
+                new_value = [f"{v:0.7f}" for v in value]
+                score_strings[split].append(f"{metric}={new_value}")
             else:
                 score_strings[split].append(f"{metric}={value}")
 

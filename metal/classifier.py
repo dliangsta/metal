@@ -147,7 +147,7 @@ class Classifier(nn.Module):
             scores.append(score)
             if verbose:
                 if type(score) != list:
-                    print(f"{metric.capitalize()}: {score:.3f}")
+                    print(f"{metric.capitalize()}: {score:.7f}")
                 else:
                     print(f"{metric.capitalize()}: {score}")
 
@@ -395,7 +395,7 @@ class Classifier(nn.Module):
             if self.config["verbose"]:
                 print(
                     f"Updated checkpointer: "
-                    f"best_score={self.checkpointer.best_score:.3f}, "
+                    f"best_score={self.checkpointer.best_score:.7f}, "
                     f"best_iteration={self.checkpointer.best_iteration}"
                 )
         return start_iteration
