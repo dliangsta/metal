@@ -140,7 +140,7 @@ class ModelTuner(object):
 
         if verbose:
             print("=" * 60)
-            print(f"[{idx+1}/{num}] Testing {search_params}")
+            print(f"[{idx}/{num}] Testing {search_params}")
             print("=" * 60)
 
         # Initialize a new LogWriter and train the model, returning the score
